@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="pic00.png">
+    <title>Welly's Food Hub - Your Online Food Destination</title>
+    <link rel="stylesheet" href="wellys.css">
+    <style>
+        /* Updated color scheme to match orange */
+        :root {
+            --primary-color: #e67e22;
+            --primary-hover: #d35400;
+            --secondary-color: #ff6347;
+            --text-color: #333;
+            --light-color: #f5f5f5;
+            --dark-color: #333;
+        }
+
+        /* Admin Section Styles */
+        .admin-content {
+            padding: 1rem;
+        }
+
+        .admin-tabs {
+            margin-bottom: 1rem;
+        }
+
+        .admin-tab {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: color 0.3s;
+        }
+
+        .admin-tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .orders-list {
+            max-height: 500px;
+            overflow-y: auto;
+            margin: 1rem 0;
+        }
+
+        .order-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-details ul {
+            margin: 0.5rem 0;
+            padding-left: 1.2rem;
+        }
+
+        .order-details p {
+            margin: 0.3rem 0;
+        }
+
+        #view-all-products {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        #view-all-products:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Update button styles to match orange color scheme */
+        button, .hero button, .product button, .order-item-actions button, .contact-form button, .order-total button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover, .hero button:hover, .product button:hover, .order-item-actions button:hover, .contact-form button:hover, .order-total button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Update category card styles */
+        .category-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--primary-color);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: var(--primary-hover);
+        }
+
+        /* Update active category card */
+        .category-card.active {
+            background-color: rgba(230, 126, 34, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        /* Update featured item styles */
+        .featured-item {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--primary-color);
+        }
+
+        .featured-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: var(--primary-hover);
+        }
+
+        /* Update product styles */
+        .product {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--primary-color);
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: var(--primary-hover);
+        }
+
+        /* Update header styles */
+        header {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Update navigation styles */
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Update cart styles */
+        .cart a {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        /* Update footer styles */
+        footer {
+            background-color: var(--dark-color);
+            color: #fff;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Account Modal -->
+    <div class="account-modal" id="account-modal">
+        <div class="account-modal-content">
+            <div class="account-tabs">
+                <button class="account-tab active" data-tab="login">Login</button>
+                <button class="account-tab" data-tab="register">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <div class="account-form active" id="login-form">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-role">I am a:</label>
+                        <select id="login-role" required>
+                            <option value="">Select Role</option>
+                            <option value="customer">Customer</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+
+            <!-- Registration Form -->
+            <div class="account-form" id="register-form">
+                <h2>Register</h2>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="register-name">Full Name</label>
+                        <input type="text" id="register-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-role">I am a:</label>
+                        <select id="register-role" required>
+                            <option value="">Select Role</option>
+                            <option value="customer">Customer</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Info in Header -->
+    <div class="account-info" id="account-info">
+        <button id="login-btn">Login/Register</button>
+        <div id="user-info" style="display: none;">
+            <span id="user-name"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <h1>Welly's Food Hub</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="nav-link" data-section="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-section="menu">Menu</a></li>
+                <li><a href="#" class="nav-link" data-section="categories">Categories</a></li>
+                <li><a href="#" class="nav-link" data-section="about">About Us</a></li>
+                <li><a href="#" class="nav-link" data-section="contact">Contact</a></li>
+
+                
+            </ul>
+        </nav>
+        <div class="cart">
+            <a href="#" id="order-icon">
+                <img src="notification.png" alt="Order List" class="order-icon-img">
+                <span class="order-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Admin Section -->
+        <section id="admin-section" class="section" style="display: none;">
+            <h2>Admin Dashboard</h2>
+            <div class="admin-content">
+                <h3>Welcome, Admin!</h3>
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="orders">Orders</button>
+                </div>
+
+                <div class="admin-tab-content active" id="orders-tab">
+                    <h4>Recent Orders</h4>
+                    <div class="orders-list" id="orders-list">
+                        <!-- Orders will be displayed here -->
+                    </div>
+                    <button id="view-all-products">View All Products</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h2>Welcome to Welly's Food Hub</h2>
+                <p>Discover the best food in Dipolog City</p>
+                <button id="order-now">Order Now</button>
+            </div>
+
+            <div class="featured">
+                <h3>Featured Dishes</h3>
+                <div class="featured-grid">
+                    <div class="featured-item">
+                        <img src="pic14.jpg" alt="SisigSilog">
+                        <h4>Sisigsilog</h4>
+                        <p>Our signature Filipino dish</p>
+                    </div>
+                    <div class="featured-item">
+                        <img src="pic13.jpg" alt="Lomi">
+                        <h4>Lomi</h4>
+                        <p>A thick, saucy, and hearty noodle soup</p>
+                    </div>
+                    <div class="featured-item">
+                        <img src="pic6.jpg" alt="PorkSilog">
+                        <h4>Porksilog</h4>
+                        <p>A fried pork chop with fried rice and a sunny-side-up egg</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section id="menu" class="section" style="display: none;">
+            <h2>Our Menu</h2>
+            <div class="product-grid" id="product-grid">
+                <!-- Products will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section id="categories" class="section" style="display: none;">
+            <h2>Food Categories</h2>
+            <div class="categories-grid">
+                <div class="category-card" data-category="all">
+                    <img src="pic20.jpg" alt="All Foods">
+                    <h3>All Foods</h3>
+                </div>
+                <div class="category-card" data-category="main-dishes">
+                    <img src="pic2.jpg" alt="Main Dishes">
+                    <h3>Main Dishes</h3>
+                </div>
+                <div class="category-card" data-category="soup">
+                    <img src="pic13.jpg" alt="Soup">
+                    <h3>Soup</h3>
+                </div>
+                <div class="category-card" data-category="drinks">
+                    <img src="pic17.jpg" alt="Drinks">
+                    <h3>Drinks</h3>
+                </div>
+                <div class="category-card" data-category="add-ons">
+                    <img src="rice.jpg" alt="Add Ons">
+                    <h3>Add Ons</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="section" style="display: none;">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About Welly's Food Hub</h2>
+                    <p>Welcome to Welly's Food Hub, your premier destination for authentic Filipino cuisine in Dipolog City. Founded in 2020, we've been serving delicious, home-style Filipino dishes made with love and the freshest ingredients.</p>
+                    <p>Our mission is to bring the rich flavors of Filipino cooking to your table, whether you're craving classic sisig comforting sinigang shrimp, or cold softdrinks. We take pride in our recipes that have been passed down through generations.</p>
+                    <p>At Welly's, we believe food is more than just sustenance - it's a way to connect with our culture and share joy with our community.</p>
+                </div>
+                <div class="about-image">
+                    <img src="pic00.png" alt="Welly's Food Hub Restaurant">
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section" style="display: none;">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2>Contact Us</h2>
+                    <p><strong>Address:</strong> 123 Rizal Street, Dipolog City, Zamboanga del Norte</p>
+                    <p><strong>Phone:</strong> (63) 012-681-7805</p>
+                    <p><strong>Mobile:</strong> 0912-861-7805</p>
+                    <p><strong>Email:</strong> wellysfoodhub@gmail.com</p>
+                    <p><strong>Hours:</strong> Monday-Sunday: 24hrs Open</p>
+                </div>
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <label for="contact-name">Name</label>
+                            <input type="text" id="contact-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">Email</label>
+                            <input type="email" id="contact-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-message">Message</label>
+                            <textarea id="contact-message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Page -->
+        <section class="order-page" id="order-page" style="display: none;">
+            <h2>Your Order List</h2>
+            <div class="order-items" id="order-items">
+                <!-- Order items will be dynamically added here -->
+            </div>
+            <div class="order-total">
+                <h3>Total: ₱<span id="order-total">0.00</span></h3>
+                <button id="checkout">Proceed to Checkout</button>
+            </div>
+        </section>
+
+        <!-- Checkout Page -->
+        <section class="checkout-page" id="checkout-page" style="display: none;">
+            <h2>Checkout</h2>
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" value="Dipolog City" required>
+                </div>
+                <div class="form-group">
+                    <label for="zip">ZIP Code</label>
+                    <input type="text" id="zip" value="7100" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="payment">Payment Method</label>
+                    <select id="payment" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="cash">Cash on Delivery</option>
+                        <option value="gcash">GCash</option>
+                        <option value="bank">Bank Transfer</option>
+                    </select>
+                </div>
+                <button type="submit">Place Order</button>
+            </form>
+        </section>
+
+        <!-- Emoji Rating Section -->
+        <section id="emoji-rating" class="section" style="display: none;">
+            <h2>Rate Your Experience</h2>
+            <div class="rating-container">
+                <div class="emoji-rating">
+                    <span class="emoji" data-rating="1">😡</span>
+                    <span class="emoji" data-rating="2">😞</span>
+                    <span class="emoji" data-rating="3">😐</span>
+                    <span class="emoji" data-rating="4">😊</span>
+                    <span class="emoji" data-rating="5">😍</span>
+                </div>
+                <div class="rating-feedback">
+                    <p>How was your experience with us?</p>
+                    <textarea id="rating-feedback" placeholder="Share your thoughts..."></textarea>
+                    <button id="submit-rating">Submit Rating</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Welly's Food Hub</h3>
+                <p>Serving delicious Filipino food in Dipolog City since 2020.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#" class="nav-link" data-section="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-section="menu">Menu</a></li>
+                    <li><a href="#" class="nav-link" data-section="about">About Us</a></li>
+                    <li><a href="#" class="nav-link" data-section="contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>123 Rizal Street, Dipolog City</p>
+                <p>Phone: (065) 123-4567</p>
+                <p>Email: wellysfoodhub@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Welly's Food Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Account system variables
+            let currentUser = null;
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            let ordersHistory = JSON.parse(localStorage.getItem('ordersHistory')) || [];
+
+            // Initialize with a default admin account
+            if (users.length === 0) {
+                users.push({
+                    name: "Admin",
+                    email: "adminwellysfoodhub@gmail.com",
+                    password: "admin123",
+                    role: "admin"
+                });
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+
+            // DOM Elements
+            const accountModal = document.getElementById('account-modal');
+            const loginBtn = document.getElementById('login-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const userInfo = document.getElementById('user-info');
+            const userNameSpan = document.getElementById('user-name');
+            const accountTabs = document.querySelectorAll('.account-tab');
+            const accountForms = document.querySelectorAll('.account-form');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+
+            // Account modal functionality
+            loginBtn.addEventListener('click', () => {
+                accountModal.style.display = 'block';
+            });
+
+            // Close modal when clicking outside
+            accountModal.addEventListener('click', (e) => {
+                if (e.target === accountModal) {
+                    accountModal.style.display = 'none';
+                }
+            });
+
+            // Tab switching
+            accountTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    accountTabs.forEach(t => t.classList.remove('active'));
+                    accountForms.forEach(f => f.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    document.getElementById(`${tab.dataset.tab}-form`).classList.add('active');
+                });
+            });
+
+            // Login form submission
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const role = document.getElementById('login-role').value;
+
+                const user = users.find(u => u.email === email && u.password === password && u.role === role);
+
+                if (user) {
+                    currentUser = user;
+                    updateUIForUser();
+                    accountModal.style.display = 'none';
+                    showNotification(`Welcome back, ${user.name}!`);
+                } else {
+                    alert('Invalid email, password, or role');
+                }
+            });
+
+            // Registration form submission
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const role = document.getElementById('register-role').value;
+
+                if (users.some(u => u.email === email)) {
+                    alert('Email already registered');
+                    return;
+                }
+
+                const newUser = { name, email, password, role };
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+
+                alert('Registration successful! Please login.');
+                document.querySelector('.account-tab[data-tab="login"]').click();
+            });
+
+            // Logout functionality
+            logoutBtn.addEventListener('click', () => {
+                currentUser = null;
+                updateUIForUser();
+                showNotification('Logged out successfully');
+            });
+
+            // Update UI based on user login status
+            function updateUIForUser() {
+                if (currentUser) {
+                    loginBtn.style.display = 'none';
+                    userInfo.style.display = 'flex';
+                    userNameSpan.textContent = currentUser.name;
+
+                    // Show admin features if admin
+                    if (currentUser.role === 'admin') {
+                        // Add admin navigation link if not already present
+                        if (!document.querySelector('.nav-link[data-section="admin-section"]')) {
+                            const adminLink = document.createElement('li');
+                            adminLink.innerHTML = '<a href="#" class="nav-link" data-section="admin-section">Admin</a>';
+                            document.querySelector('nav ul').appendChild(adminLink);
+
+                            // Add event listener for the new admin link
+                            adminLink.querySelector('a').addEventListener('click', function(e) {
+                                e.preventDefault();
+                                showSection('admin-section');
+                            });
+                        }
+                    } else {
+                        // Remove admin link if present and not admin
+                        const adminLink = document.querySelector('.nav-link[data-section="admin-section"]');
+                        if (adminLink) {
+                            adminLink.parentElement.remove();
+                        }
+                    }
+                } else {
+                    loginBtn.style.display = 'block';
+                    userInfo.style.display = 'none';
+                    // Remove admin link if present
+                    const adminLink = document.querySelector('.nav-link[data-section="admin-section"]');
+                    if (adminLink) {
+                        adminLink.parentElement.remove();
+                    }
+                }
+            }
+
+            // Show notification
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.textContent = message;
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.remove();
+                }, 2000);
+            }
+
+            // Initialize
+            updateUIForUser();
+
+            // Rest of your existing code...
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            const orderIcon = document.getElementById('order-icon');
+            const orderNowButton = document.getElementById('order-now');
+            const productGrid = document.getElementById('product-grid');
+            const orderItems = document.getElementById('order-items');
+            const orderTotal = document.getElementById('order-total');
+            const checkoutButton = document.getElementById('checkout');
+            const checkoutPage = document.getElementById('checkout-page');
+            const checkoutForm = document.getElementById('checkout-form');
+            const contactForm = document.getElementById('contact-form');
+
+            let orderItemCount = 0;
+            let order = [];
+            let total = 0;
+
+            // Sample food items with categories
+            const products = [
+                { id: 1, name: 'Cornsilog', price: 55, image: 'pic2.jpg', description: 'Cornbeef with rice and egg', category: 'main-dishes' },
+                { id: 2, name: 'Tocilog', price: 90, image: 'pic3.jpg', description: 'Tocino with rice and egg', category: 'main-dishes' },
+                { id: 3, name: 'Bangsilog', price: 65, image: 'pic4.jpg', description: 'Bangus with rice and egg', category: 'main-dishes' },
+                { id: 4, name: 'Chicksilog', price: 75, image: 'pic5.jpg', description: 'Fried chicken with rice and egg', category: 'main-dishes' },
+                { id: 5, name: 'Porksilog', price: 50, image: 'pic6.jpg', description: 'Pork with rice and egg', category: 'main-dishes' },
+                { id: 6, name: 'Longsilog', price: 50, image: 'pic7.jpg', description: 'Longganisa with rice and egg', category: 'main-dishes' },
+                { id: 7, name: 'Footlongsilog', price: 60, image: 'pic8.jpg', description: 'Long longganisa with rice and egg', category: 'main-dishes' },
+                { id: 8, name: 'Cantonsilog', price: 90, image: 'pic9.jpg', description: 'Pancit canton with egg', category: 'main-dishes' },
+                { id: 9, name: 'Shrimpsilog', price: 55, image: 'pic10.jpg', description: 'Shrimp with egg and rice', category: 'main-dishes' },
+                { id: 10, name: 'Sardsilog', price: 70, image: 'pic11.jpg', description: 'Sardines with egg and rice', category: 'main-dishes' },
+                { id: 11, name: 'Sinigang na Hipon', price: 55, image: 'pic12.jpg', description: 'Sour shrimp soup', category: 'soup' },
+                { id: 12, name: 'Lomi', price: 55, image: 'pic13.jpg', description: 'Thick noodle soup', category: 'soup' },
+                { id: 13, name: 'Tapsilog', price: 80, image: 'pic14.jpg', description: 'Beef tapa with garlic rice and egg', category: 'main-dishes' },
+                { id: 14, name: 'Sisigsilog', price: 70, image: 'pic15.jpg', description: 'Sizzling sisig with garlic rice and egg', category: 'main-dishes' },
+                { id: 15, name: 'Lumpiasilog', price: 50, image: 'pic16.jpg', description: 'Lumpia with rice and egg', category: 'main-dishes' },
+                { id: 16, name: 'Pepsi', price: 50, image: 'pepsi.jpg', description: 'Pepsi cola', category: 'drinks' },
+                { id: 17, name: 'Coke 1.5', price: 75, image: '1.5.jpg', description: 'Coke 1.5', category: 'drinks' },
+                { id: 18, name: 'Coke in a Can', price: 40, image: 'can.jpg', description: 'Coke in a can cola', category: 'drinks' },
+                { id: 19, name: 'Blue Fanta', price: 50, image: 'fanta.jpg', description: 'Blue Fanta', category: 'drinks' },
+                { id: 20, name: 'Miranda Orange', price: 50, image: 'miranda.jpg', description: 'Miranda Orange', category: 'drinks' },
+                { id: 21, name: 'Nestea in a bottle', price: 30, image: 'nestea.jpg', description: 'Nestea', category: 'drinks' },
+                { id: 22, name: 'Boiled Egg', price: 15, image: 'egg.jpg', description: 'Boiled Egg', category: 'Add Ons' },
+                { id: 23, name: 'Rice', price: 10, image: 'rice.jpg', description: 'Plain Rice', category: 'Add Ons' },
+            ];
+
+            // Display all products
+            function displayProducts(category = 'all') {
+                productGrid.innerHTML = '';
+
+                const filteredProducts = category === 'all'
+                    ? products
+                    : products.filter(product => product.category === category);
+
+                // Filter admin-only products if not admin
+                const visibleProducts = currentUser && currentUser.role === 'admin'
+                    ? filteredProducts
+                    : filteredProducts.filter(p => p.category !== 'admin-only');
+
+                if (visibleProducts.length === 0) {
+                    productGrid.innerHTML = '<p class="no-products">No products found in this category</p>';
+                    return;
+                }
+
+                visibleProducts.forEach(product => {
+                    const productElement = document.createElement('div');
+                    productElement.className = 'product';
+                    productElement.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p class="price">₱${product.price.toFixed(2)}</p>
+                        <p class="description">${product.description}</p>
+                        <button class="add-to-order" data-id="${product.id}">Add to Order</button>
+                    `;
+                    productGrid.appendChild(productElement);
+                });
+
+                // Add event listeners to "Add to Order" buttons
+                document.querySelectorAll('.add-to-order').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const productId = parseInt(this.getAttribute('data-id'));
+                        const product = products.find(p => p.id === productId);
+                        addToOrder(product);
+                    });
+                });
+            }
+
+            // Add product to order
+            function addToOrder(product) {
+                const existingItem = order.find(item => item.id === product.id);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    order.push({ ...product, quantity: 1 });
+                }
+                orderItemCount++;
+                updateOrderIcon();
+                updateOrderList();
+                showNotification(`${product.name} added to your order!`);
+            }
+
+            // Update order icon display
+            function updateOrderIcon() {
+                const countSpan = orderIcon.querySelector('.order-count');
+                countSpan.textContent = orderItemCount;
+            }
+
+            // Update order list display
+            function updateOrderList() {
+                orderItems.innerHTML = '';
+                total = 0;
+
+                if (order.length === 0) {
+                    orderItems.innerHTML = '<p class="empty-order">Your order is empty</p>';
+                } else {
+                    order.forEach(item => {
+                        const itemTotal = item.price * item.quantity;
+                        total += itemTotal;
+
+                        const orderItemElement = document.createElement('div');
+                        orderItemElement.className = 'order-item';
+                        orderItemElement.innerHTML = `
+                            <img src="${item.image}" alt="${item.name}">
+                            <div class="order-item-info">
+                                <h3>${item.name}</h3>
+                                <p>₱${item.price.toFixed(2)} x ${item.quantity}</p>
+                            </div>
+                            <div class="order-item-actions">
+                                <button class="increase-quantity" data-id="${item.id}">+</button>
+                                <button class="decrease-quantity" data-id="${item.id}">-</button>
+                                <button class="remove-item" data-id="${item.id}">Remove</button>
+                            </div>
+                        `;
+                        orderItems.appendChild(orderItemElement);
+                    });
+
+                    // Add event listeners to order item buttons
+                    document.querySelectorAll('.increase-quantity').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const productId = parseInt(this.getAttribute('data-id'));
+                            increaseQuantity(productId);
+                        });
+                    });
+
+                    document.querySelectorAll('.decrease-quantity').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const productId = parseInt(this.getAttribute('data-id'));
+                            decreaseQuantity(productId);
+                        });
+                    });
+
+                    document.querySelectorAll('.remove-item').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const productId = parseInt(this.getAttribute('data-id'));
+                            removeItem(productId);
+                        });
+                    });
+                }
+
+                document.getElementById('order-total').textContent = total.toFixed(2);
+            }
+
+            // Increase item quantity
+            function increaseQuantity(productId) {
+                const item = order.find(item => item.id === productId);
+                if (item) {
+                    item.quantity++;
+                    orderItemCount++;
+                    updateOrderIcon();
+                    updateOrderList();
+                }
+            }
+
+            // Decrease item quantity
+            function decreaseQuantity(productId) {
+                const item = order.find(item => item.id === productId);
+                if (item) {
+                    if (item.quantity > 1) {
+                        item.quantity--;
+                        orderItemCount--;
+                        updateOrderIcon();
+                        updateOrderList();
+                    } else {
+                        removeItem(productId);
+                    }
+                }
+            }
+
+            // Remove item from order
+            function removeItem(productId) {
+                const itemIndex = order.findIndex(item => item.id === productId);
+                if (itemIndex !== -1) {
+                    orderItemCount -= order[itemIndex].quantity;
+                    updateOrderIcon();
+                    order.splice(itemIndex, 1);
+                    updateOrderList();
+                    showNotification('Item removed from your order');
+                }
+            }
+
+            // Navigation functionality
+            function showSection(sectionId) {
+                // Hide all sections
+                sections.forEach(section => {
+                    section.style.display = 'none';
+                });
+
+                // Remove active class from all nav links
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                // Show the selected section
+                const sectionToShow = document.getElementById(sectionId);
+                if (sectionToShow) {
+                    sectionToShow.style.display = 'block';
+                    sectionToShow.classList.add('active');
+                }
+
+                // Add active class to the clicked nav link
+                const activeLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+
+                // Special handling for menu section
+                if (sectionId === 'menu') {
+                    displayProducts();
+                }
+
+                // Special handling for admin section
+                if (sectionId === 'admin-section') {
+                    document.getElementById('admin-section').innerHTML = `
+                        <h2>Admin Dashboard</h2>
+                        <div class="admin-content">
+                            <h3>Welcome, ${currentUser.name}!</h3>
+                            <div class="admin-tabs">
+                                <button class="admin-tab active" data-tab="orders">Orders</button>
+                            </div>
+
+                            <div class="admin-tab-content active" id="orders-tab">
+                                <h4>Recent Orders</h4>
+                                <div class="orders-list" id="orders-list">
+                                    <!-- Orders will be displayed here -->
+                                </div>
+                                <button id="view-all-products">View All Products</button>
+                            </div>
+                        </div>
+                    `;
+
+                    // Display orders immediately
+                    displayOrders();
+
+                    // Add event listener for products button
+                    document.getElementById('view-all-products').addEventListener('click', () => {
+                        displayProducts('all');
+                        showSection('menu');
+                    });
+                }
+            }
+
+            // Display orders function
+            function displayOrders() {
+                const ordersList = document.getElementById('orders-list');
+                ordersList.innerHTML = '';
+
+                if (ordersHistory.length === 0) {
+                    ordersList.innerHTML = '<p>No orders yet</p>';
+                    return;
+                }
+
+                ordersHistory.forEach(order => {
+                    const orderElement = document.createElement('div');
+                    orderElement.className = 'order-card';
+
+                    const date = new Date(order.date).toLocaleString();
+                    const itemsList = order.items.map(item =>
+                        `<li>${item.name} x ${item.quantity} - ₱${(item.price * item.quantity).toFixed(2)}</li>`
+                    ).join('');
+
+                    orderElement.innerHTML = `
+                        <div class="order-header">
+                            <h4>Order #${order.orderId}</h4>
+                            <span>${date}</span>
+                        </div>
+                        <div class="order-details">
+                            <p><strong>Customer:</strong> ${order.customer.name}</p>
+                            <p><strong>Email:</strong> ${order.customer.email}</p>
+                            <p><strong>Phone:</strong> ${order.customer.phone}</p>
+                            <p><strong>Address:</strong> ${order.customer.address}, ${order.customer.city}, ${order.customer.zip}</p>
+                            <p><strong>Payment:</strong> ${order.paymentMethod}</p>
+                            <p><strong>Items:</strong></p>
+                            <ul>${itemsList}</ul>
+                            <p><strong>Subtotal:</strong> ₱${order.subtotal.toFixed(2)}</p>
+                            <p><strong>Delivery Fee:</strong> ₱${order.deliveryFee.toFixed(2)}</p>
+                            <p><strong>Total:</strong> ₱${order.total.toFixed(2)}</p>
+                        </div>
+                    `;
+
+                    ordersList.appendChild(orderElement);
+                });
+            }
+
+            // Process order function
+            function processOrder() {
+                // Get form values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const address = document.getElementById('address').value;
+                const city = document.getElementById('city').value;
+                const zip = document.getElementById('zip').value;
+                const phone = document.getElementById('phone').value;
+                const payment = document.getElementById('payment').value;
+
+                // Validate form
+                if (!name || !email || !address || !phone || !payment) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                // Get current date and time
+                const now = new Date();
+                const date = now.toLocaleDateString();
+                const time = now.toLocaleTimeString();
+
+                // Generate receipt
+                let receipt = `WELLY'S FOOD HUB - ORDER RECEIPT\n`;
+                receipt += `================================\n`;
+                receipt += `Date: ${date}\n`;
+                receipt += `Time: ${time}\n`;
+                receipt += `Order #: ${Math.floor(Math.random() * 1000000)}\n`;
+                receipt += `Customer: ${name}\n`;
+                receipt += `Email: ${email}\n`;
+                receipt += `Address: ${address}, ${city}, ${zip}\n`;
+                receipt += `Phone: ${phone}\n`;
+                receipt += `Payment: ${payment === 'cash' ? 'Cash on Delivery' :
+                       payment === 'gcash' ? 'GCash' : 'Bank Transfer'}\n\n`;
+                receipt += `ITEMS ORDERED:\n`;
+
+                order.forEach(item => {
+                    receipt += `- ${item.name} x ${item.quantity}: ₱${(item.price * item.quantity).toFixed(2)}\n`;
+                });
+
+                receipt += `\nSUBTOTAL: ₱${total.toFixed(2)}\n`;
+                receipt += `DELIVERY FEE: ₱50.00\n`;
+                receipt += `TOTAL: ₱${(total + 50).toFixed(2)}\n\n`;
+                receipt += `Thank you for ordering from Welly's Food Hub!\n`;
+                receipt += `Your food will be delivered within 30-45 minutes.\n`;
+                receipt += `Enjoy your meal!`;
+
+                // Store the order in history
+                const orderData = {
+                    orderId: Math.floor(Math.random() * 1000000),
+                    date: now.toISOString(),
+                    customer: {
+                        name: name,
+                        email: email,
+                        address: address,
+                        city: city,
+                        zip: zip,
+                        phone: phone
+                    },
+                    paymentMethod: payment === 'cash' ? 'Cash on Delivery' :
+                           payment === 'gcash' ? 'GCash' : 'Bank Transfer',
+                    items: order.map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.quantity
+                    })),
+                    subtotal: total,
+                    deliveryFee: 50,
+                    total: total + 50
+                };
+
+                ordersHistory.push(orderData);
+                localStorage.setItem('ordersHistory', JSON.stringify(ordersHistory));
+
+                // Display receipt
+                alert(receipt);
+
+                // Reset order
+                order = [];
+                orderItemCount = 0;
+                updateOrderIcon();
+                checkoutForm.reset();
+                showSection('home');
+                updateOrderList();
+
+                // Show confirmation
+                showSection('home');
+                alert('Order placed successfully! Thank you for your order.');
+            }
+
+            // Event listeners for navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('data-section');
+                    showSection(sectionId);
+                });
+            });
+
+            // Category cards functionality
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    showSection('menu');
+                    displayProducts(category);
+
+                    // Update active category
+                    categoryCards.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Event listeners for main buttons
+            orderNowButton.addEventListener('click', function() {
+                showSection('menu');
+            });
+
+            orderIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                showSection('order-page');
+                updateOrderList();
+            });
+
+            checkoutButton.addEventListener('click', function() {
+                if (order.length === 0) {
+                    alert('Your order is empty!');
+                } else {
+                    showSection('checkout-page');
+                }
+            });
+
+            // Checkout form submission
+            checkoutForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                processOrder();
+            });
+
+            // Contact form submission
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById('contact-name').value;
+                const email = document.getElementById('contact-email').value;
+                const message = document.getElementById('contact-message').value;
+
+                alert(`Thank you for your message, ${name}! We'll get back to you soon at ${email}.`);
+
+                contactForm.reset();
+            });
+
+            // Show home section by default
+            showSection('home');
+
+            // Emoji Rating Functionality
+            const emojis = document.querySelectorAll('.emoji');
+            const ratingFeedback = document.getElementById('rating-feedback');
+            const submitRating = document.getElementById('submit-rating');
+            let selectedRating = 0;
+
+            // Add click event listeners to emojis
+            emojis.forEach(emoji => {
+                emoji.addEventListener('click', function() {
+                    // Remove selected class from all emojis
+                    emojis.forEach(e => e.classList.remove('selected'));
+
+                    // Add selected class to clicked emoji
+                    this.classList.add('selected');
+
+                    // Set selected rating
+                    selectedRating = parseInt(this.getAttribute('data-rating'));
+                });
+            });
+
+            // Handle form submission
+            submitRating.addEventListener('click', function() {
+                if (selectedRating === 0) {
+                    alert('Please select a rating');
+                    return;
+                }
+
+                const feedback = ratingFeedback.value;
+
+                // Here you can send the rating and feedback to your server
+                console.log('Rating:', selectedRating);
+                console.log('Feedback:', feedback);
+
+                // Show thank you message
+                alert('Thank you for your feedback!');
+
+                // Reset form
+                emojis.forEach(e => e.classList.remove('selected'));
+                ratingFeedback.value = '';
+                selectedRating = 0;
+            });
+
+            // Add navigation link for emoji rating
+            const ratingLink = document.createElement('li');
+            ratingLink.innerHTML = '<a href="#" class="nav-link" data-section="emoji-rating">Rate Us</a>';
+            document.querySelector('nav ul').appendChild(ratingLink);
+
+            // Add event listener for the new rating link
+            ratingLink.querySelector('a').addEventListener('click', function(e) {
+                e.preventDefault();
+                showSection('emoji-rating');
+            });
+
+            mobileMenu.addEventListener('click', function() {
+                const nav = document.querySelector('nav ul');
+                nav.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
